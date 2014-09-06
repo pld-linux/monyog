@@ -3,7 +3,7 @@
 Summary:	MONyog MySQL Monitoring Tool
 Name:		monyog
 Version:	6.1.0
-Release:	0.1
+Release:	0.2
 License:	Webyog Inc.
 Group:		Applications/Databases
 Source0:	https://static.webyog.com/downloads/MONyog-%{version}-0.i386.tar.gz
@@ -17,6 +17,9 @@ ExclusiveArch:	%{ix86} %{x8664}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_appdir	%{_datadir}/%{name}
+
+# monyog: file '/usr/sbin/monyog' has size=498000 instead of 29952257
+%define		_noautostrip		.*%{_sbindir}/monyog
 
 %description
 MONyog is a monitoring and advisory tool for MySQL Community, MySQL

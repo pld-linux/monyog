@@ -58,6 +58,7 @@ rm -rf $RPM_BUILD_ROOT
 
 ===========================================================================
 Point your browser to http://<YOUR_HOST>:<MONYOG_PORT>/ to monitor MySQL servers.
+Please refer to https://www.webyog.com/webyog/monyogDocs for online documentation.
 ===========================================================================
 
 EOF

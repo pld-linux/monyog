@@ -3,7 +3,7 @@
 Summary:	MONyog MySQL Monitoring Tool
 Name:		monyog
 Version:	6.1.0
-Release:	0.2
+Release:	0.5
 License:	Webyog Inc.
 Group:		Applications/Databases
 Source0:	https://static.webyog.com/downloads/MONyog-%{version}-0.i386.tar.gz
@@ -16,10 +16,10 @@ URL:		https://www.webyog.com/product/monyog
 ExclusiveArch:	%{ix86} %{x8664}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-%define		_appdir	%{_datadir}/%{name}
+%define		_appdir	%{_libdir}/%{name}
 
 # monyog: file '/usr/sbin/monyog' has size=498000 instead of 29952257
-%define		_noautostrip		.*%{_sbindir}/monyog
+%define		_noautostrip		.*%{_appdir}/bin/monyog
 
 %description
 MONyog is a monitoring and advisory tool for MySQL Community, MySQL
@@ -45,10 +45,10 @@ mv MONyog/* .
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_sbindir},%{_appdir},/etc/{rc.d/init.d,logrotate.d}}
+install -d $RPM_BUILD_ROOT{%{_sbindir},%{_appdir}/bin,/etc/{rc.d/init.d,logrotate.d}}
 cp -a MONyog.lua MONyog.mib res $RPM_BUILD_ROOT%{_appdir}
 install -p bin/MONyog $RPM_BUILD_ROOT/etc/rc.d/init.d/%{name}
-install -p bin/MONyog-bin $RPM_BUILD_ROOT%{_sbindir}/%{name}
+install -p bin/MONyog-bin $RPM_BUILD_ROOT%{_appdir}/bin/%{name}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -67,5 +67,9 @@ EOF
 %defattr(644,root,root,755)
 %doc README
 %attr(754,root,root) /etc/rc.d/init.d/monyog
-%attr(755,root,root) %{_sbindir}/monyog
-%{_appdir}
+%dir %{_appdir}
+%{_appdir}/MONyog.lua
+%{_appdir}/MONyog.mib
+%{_appdir}/res
+%dir %{_appdir}/bin
+%attr(755,root,root) %{_appdir}/bin/monyog

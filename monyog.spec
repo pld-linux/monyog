@@ -3,7 +3,7 @@
 Summary:	MONyog MySQL Monitoring Tool
 Name:		monyog
 Version:	6.1.0
-Release:	0.5
+Release:	0.9
 License:	Webyog Inc.
 Group:		Applications/Databases
 Source0:	https://static.webyog.com/downloads/MONyog-%{version}-0.i386.tar.gz
@@ -50,6 +50,12 @@ cp -a MONyog.lua MONyog.mib res $RPM_BUILD_ROOT%{_appdir}
 install -p bin/MONyog $RPM_BUILD_ROOT/etc/rc.d/init.d/%{name}
 install -p bin/MONyog-bin $RPM_BUILD_ROOT%{_appdir}/bin/%{name}
 
+# home directory that is usable for mysql user (not to run the daemon as root)
+# bin dir needs to be writable, as ssh temp files are created there
+install -d $RPM_BUILD_ROOT/var/lib/%{name}/bin
+ln -s %{_appdir}/res $RPM_BUILD_ROOT/var/lib/%{name}
+ln -s %{_appdir}/bin/%{name} $RPM_BUILD_ROOT/var/lib/%{name}/bin
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -73,3 +79,8 @@ EOF
 %{_appdir}/res
 %dir %{_appdir}/bin
 %attr(755,root,root) %{_appdir}/bin/monyog
+
+%dir %attr(770,root,mysql) /var/lib/%{name}
+%dir %attr(770,root,mysql) /var/lib/%{name}/bin
+/var/lib/%{name}/res
+/var/lib/%{name}/bin/%{name}

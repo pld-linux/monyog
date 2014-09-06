@@ -53,6 +53,15 @@ install -p bin/MONyog-bin $RPM_BUILD_ROOT%{_sbindir}/%{name}
 %clean
 rm -rf $RPM_BUILD_ROOT
 
+%post
+%banner -e -o %{name} <<EOF
+
+===========================================================================
+Point your browser to http://<YOUR_HOST>:<MONYOG_PORT>/ to monitor MySQL servers.
+===========================================================================
+
+EOF
+
 %files
 %defattr(644,root,root,755)
 %doc README
